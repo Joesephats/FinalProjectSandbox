@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody rb;
 
+    [SerializeField] GameObject level;
 
     // Start is called before the first frame update
     void Start()
@@ -55,12 +56,19 @@ public class PlayerController : MonoBehaviour
     void FlyingControls()
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
+        Vector3 levelRotation = new Vector3(0, 0, -horizontalInput);
 
-        Vector3 movementDir = new Vector3 (horizontalInput, verticalInput, 0);
-        movementDir = movementDir.normalized;
+        //level movement
+        level.GetComponent<Rigidbody>().AddTorque(levelRotation * speed * Time.deltaTime, ForceMode.Force);
 
-        rb.AddForce(movementDir * speed, ForceMode.Force);
+
+        //ship movement
+        //float verticalInput = Input.GetAxisRaw("Vertical");
+
+        //Vector3 movementDir = new Vector3 (horizontalInput, verticalInput, 0);
+        //movementDir = movementDir.normalized;
+
+        //rb.AddForce(movementDir * speed, ForceMode.Force);
 
     }
 
@@ -84,7 +92,7 @@ public class PlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Aim")))
+        if (Physics.Raycast(ray, out hit, 1100, LayerMask.GetMask("Aim")))
         {
             targetCursor.transform.position = hit.point;
         }
