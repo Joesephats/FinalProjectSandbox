@@ -9,7 +9,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float aimSensitivity = 10;
 
     GameObject targetCursor;
-    
+
+    [SerializeField] GameObject laserPrefab;
+    [SerializeField] GameObject leftLaserPort;
+    [SerializeField] GameObject rightLaserPort;
+
     Rigidbody rb;
 
 
@@ -26,6 +30,7 @@ public class PlayerController : MonoBehaviour
         FlyingControls();
         //KeyAimingControls();
         MouseAimingControls();
+        ShootingControls();
     }
 
     private void FixedUpdate()
@@ -82,6 +87,28 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 1000, LayerMask.GetMask("Aim")))
         {
             targetCursor.transform.position = hit.point;
+        }
+    }
+
+    void ShootingControls()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            //instantiate lasers
+            GameObject leftLaser = Instantiate(laserPrefab, leftLaserPort.transform.position, Quaternion.identity);
+            GameObject rightLaser = Instantiate(laserPrefab, rightLaserPort.transform.position, Quaternion.identity);
+
+            //get direction to cursor
+            Vector3 leftLaserDir = (targetCursor.transform.position - leftLaser.transform.position).normalized;
+            Vector3 rightLaserDir = (targetCursor.transform.position - rightLaser.transform.position).normalized;
+
+            //initial orient of lasers
+            leftLaser.transform.up = leftLaserDir;
+            rightLaser.transform.up = rightLaserDir;
+
+            //call laser fire method (adds force)
+            leftLaser.GetComponent<LaserManager>().Fire(leftLaserDir);
+            rightLaser.GetComponent<LaserManager>().Fire(rightLaserDir);
         }
     }
 }
