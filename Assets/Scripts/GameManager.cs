@@ -68,9 +68,12 @@ public class GameManager : MonoBehaviour
 
     IEnumerator GameOver()
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().enabled = false;
+        GameObject.FindGameObjectWithTag("Player").GetComponentInParent<PlayerController>().enabled = false;
         GameObject.FindGameObjectWithTag("Level").GetComponent<BasicLevelSequence>().StopLevel();
-        GameObject.FindGameObjectWithTag("GameOver").SetActive(true);
+        Cursor.visible = true;
+        GameObject.FindGameObjectWithTag("GameOver").SetActive(false);
+
+
         return null;
     }
 

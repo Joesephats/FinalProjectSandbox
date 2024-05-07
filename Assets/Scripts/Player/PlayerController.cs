@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameObject.FindGameObjectWithTag("GameOver").SetActive(false);
+
         rb = GetComponent<Rigidbody>();
         targetCursor = GameObject.FindGameObjectWithTag("Target");
         hp = maxHp;
@@ -65,7 +67,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Asteroid")
         {
-        GetComponent<PlayerSoundManager>().PlayImpactSFX();
+            GetComponent<PlayerSoundManager>().PlayImpactSFX();
         }
         else if (other.gameObject.tag == "DarkMatter")
         {
