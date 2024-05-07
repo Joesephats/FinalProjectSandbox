@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject.FindGameObjectWithTag("GameOver").SetActive(false);
+        GameObject.FindGameObjectWithTag("GameOver").GetComponent<Canvas>().enabled = false;
 
         rb = GetComponent<Rigidbody>();
         targetCursor = GameObject.FindGameObjectWithTag("Target");

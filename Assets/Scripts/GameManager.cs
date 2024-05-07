@@ -71,10 +71,14 @@ public class GameManager : MonoBehaviour
         GameObject.FindGameObjectWithTag("Player").GetComponentInParent<PlayerController>().enabled = false;
         GameObject.FindGameObjectWithTag("Level").GetComponent<BasicLevelSequence>().StopLevel();
         Cursor.visible = true;
-        GameObject.FindGameObjectWithTag("GameOver").SetActive(false);
+
+        yield return new WaitForEndOfFrame();
+
+        //GameObject.FindWithTag("GameOver").SetActive(true);
+        GameObject.FindGameObjectWithTag("GameOver").GetComponent<Canvas>().enabled = true;
 
 
-        return null;
+        yield return null;
     }
 
     public void AddDarkMatter(int collected)
